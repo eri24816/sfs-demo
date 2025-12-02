@@ -8,21 +8,12 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig({
   plugins: [
     vue(),
-    vueDevTools(),
+    vueDevTools(), // Disabled due to localStorage bug in @vue/devtools-kit
   ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
-  },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-      }
-    },
-    allowedHosts: ['*']
   },
   define: {
     // By default, Vite doesn't include shims for NodeJS/

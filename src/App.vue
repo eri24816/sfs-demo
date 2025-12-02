@@ -1,6 +1,25 @@
 <template>
     <div class="app">
         <HeaderComp :title="settings.title" :description="settings.description" />
+        <div class="abstract-and-video">   
+            <div class="abstract">
+                <p>
+                    A challenge of full-song generation is the need to simultaneously maintain global coherence and generate long sequence efficiently.
+                </p>
+                <p>
+                    We took inspiration from human songwriters' typical workflow: first decide the theme and structure of the song, then fill in the surrounding content.
+                
+                </p>
+                <p>
+                    Our model takes a user-provided song structure and a seed segment as input, and generates remaining segments through selective attention to related segments. Our model can generate in real-time for a song around 120 bpm and can generate in non-chronological orders.
+                </p>
+                <p>
+                    We also made an interface where people can iteratively co-create music with the model (see 0:40 in the video).
+                </p>
+            </div>
+            <iframe class="youtube-video" width="560" height="315" src="https://www.youtube.com/embed/YkrsK2dMfU8?si=IizCC5lbkZGF7eGR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
         <div class="section" v-for="section in sections" :key="section.sectionName">
             <h2 v-html="renderMarkdown(section.sectionName)" :id="section.sectionName"></h2>
             <p 
@@ -342,5 +361,25 @@ h2 {
 }
 .section{
     margin: 100px 0;
+}
+
+.abstract {
+    padding: 0 60px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 18px;
+    flex: 1;
+}
+
+.youtube-video {
+    display: block;
+}
+
+.abstract-and-video {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 </style>
