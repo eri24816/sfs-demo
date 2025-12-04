@@ -14,7 +14,7 @@
             
             </a>
             <a href="/nips2025poster.pdf"  class="link">
-                📄 Poster
+                🖼️ Poster
             </a>
         </div>
     </div>

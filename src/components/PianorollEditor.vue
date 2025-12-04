@@ -5,7 +5,7 @@
             @contextmenu.prevent></canvas>
         <div class="controls">
             <button class="control-btn" @click.prevent="handlePlayClick" :disabled="!player.isReady">
-                {{ player.isReady.value ? (isPlaying ? "⏹" : "▶") : "Loading soundfont..." }}
+                {{ player.isReady.value ? (isPlaying ? "⏹" : "▶") : "" }}
             </button>
             <button class="control-btn" @click.prevent="saveMidi">💾</button>
             <button class="control-btn" @click.prevent="clear" v-if="editable">🗑️</button>
@@ -659,7 +659,7 @@ onMounted(() => {
     emit("transform", { scaleX, shiftX })
 
     // Focus the editor when mounted
-    editorDiv.value?.focus()
+    // editorDiv.value?.focus()
 
 
     document.addEventListener("mousemove", handleMouseMove)

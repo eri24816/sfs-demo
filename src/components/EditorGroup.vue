@@ -57,7 +57,6 @@ const handleTransform = (transform: { scaleX: number, shiftX: number }, sourceIn
     });
 };
 
-// Add focus method
 function focus() {
     editors.value[0]?.focus()
 }

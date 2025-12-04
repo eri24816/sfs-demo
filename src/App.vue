@@ -1,6 +1,7 @@
 <template>
     <div class="app">
-        <HeaderComp :title="settings.title" :description="settings.description" />
+        <HeaderComp :title="`Segment-Factorized Full-Song Generation on Symbolic Piano Music
+        `" :description="settings.description" />
         <div class="abstract-and-video">   
             <div class="abstract">
                 <p>
@@ -37,7 +38,6 @@
                         :minPitch="21" 
                         :maxPitch="108" 
                         :editable="false"
-                        @focus="() => handleEditorFocus(section)"
                     ></PianorollEditor>
                 </TabSwitcher>
             </div>
@@ -49,7 +49,6 @@
                         :ref="(el)=>dictRefCallback(el, editors, section.sectionName)"
                         class="editor-group"
                         :names="section.groupMembers"
-                        @focus="() => handleEditorFocus(section)"
                     />
                 </TabSwitcher>
             </div>
@@ -74,8 +73,6 @@ import { player } from './player'
 const tabSwitchers = ref<Record<string, any>>({})
 const editors = ref<Record<string, InstanceType<typeof PianorollEditor> | InstanceType<typeof EditorGroup>>>({})
 const selectedItems = ref<Record<string, string>>({})
-let allowNextFragmentUpdate = false
-let ignoreNextHashChange = false
 
 const dictRefCallback = <T>(el: T | null, dict: Record<string, any>, key: string) => {
     console.log('dictRefCallback', el, dict, key)
@@ -94,10 +91,6 @@ type Section = { sectionName: string, items: string[] }
 type GroupedSection = { sectionName: string, items: string[], groupMembers: string[] }
 const sections = ref<(Section | GroupedSection)[]>([])
 
-// Add function to update URL fragment
-function updateUrlFragment(section: string, item: string, groupName?: string) {
-    return;
-}
 
 function handleFileSelect(itemName: string, sectionName: string, groupName?: string) {
     console.log('handleFileSelect', itemName, sectionName, groupName)
@@ -109,10 +102,6 @@ function handleFileSelect(itemName: string, sectionName: string, groupName?: str
     }
     (editors.value[sectionName] as InstanceType<typeof PianorollEditor>).loadMidiFile(path)
     selectedItems.value[sectionName] = itemName
-}
-
-function handleFileSwitcherClick(sectionName: string, itemName: string, groupName?: string) {
-    updateUrlFragment(sectionName, itemName, groupName) // Add URL fragment update
 }
 
 async function handleGroupFileSelect(itemName: string, section: GroupedSection) {
@@ -145,7 +134,6 @@ async function ls(path: string) {
 
 function itemNameTrim(name: string) {
     // replaces some_text_0063000.mid with some_text_0063000
-    console.log('itemNameTrim', name, name.replace(/\.mid$/, ''))
     return name.replace(/\.mid$/, '')
 }
 
@@ -238,69 +226,12 @@ onMounted(async () => {
         }
     }
 
-    
-    // if (sectionNameFromUrl && itemNameFromUrl) {
-    //     //scroll to the section
-    //     nextTick(() => {
-    //         if (store.bps) {
-    //             for (const editor of Object.values(editors.value)) {
-    //                 editor.setBps(store.bps)
-    //             }
-    //         }
-    //         const sectionElement = document.getElementById(sectionNameFromUrl)
-    //         if (sectionElement) {
-    //             sectionElement.scrollIntoView({ behavior: 'smooth' })
-    //         }
-    //         // focus on the editor
-    //         const editor = editors.value[sectionNameFromUrl]
-    //         if (editor) {
-    //             editor.focus()
-    //         }
-    //         allowNextFragmentUpdate = true
-    //         window.addEventListener("hashchange", () => {
-    //             if (ignoreNextHashChange) {
-    //                 ignoreNextHashChange = false
-    //                 return
-    //             }
-    //             allowNextFragmentUpdate = false
-    //             console.log('hashchange', window.location.hash)
-    //             const urlParams = new URLSearchParams(window.location.hash.slice(1))
-    //             const sectionNameFromUrl = urlParams.get('section')
-    //             const itemNameFromUrl = urlParams.get('item')
-    //             if (!sectionNameFromUrl || !itemNameFromUrl) return
-    //             // scroll to the section if not in view
-    //             const sectionElement = document.getElementById(sectionNameFromUrl)
-    //             if (sectionElement && !sectionElement.getBoundingClientRect().top) {
-    //                 sectionElement.scrollIntoView({ behavior: 'smooth' })
-    //             }
-    //             // select the item in the tab switcher
-    //             const tabSwitcher = tabSwitchers.value[sectionNameFromUrl]
-    //             if (tabSwitcher) {
-    //                 tabSwitcher.selectFile(itemNameFromUrl)
-    //             }
-    //         })
-    //     })
-    // } else {
-    //     allowNextFragmentUpdate = true
-    // }
-
 });
 
 function nextTick(fn: () => void) {
     setTimeout(fn, 0)
 }
 
-// Add focus handlers
-function handleEditorFocus(section: Section | GroupedSection) {
-    if (!section) return
-    
-    const editor = editors.value[section.sectionName]
-    if (!editor) return
-    const currentFile = selectedItems.value[section.sectionName]
-    if (currentFile) {
-        updateUrlFragment(section.sectionName, currentFile)
-    }
-}
 
 watch(() => store.volume, (newVolume) => {
     player.setVolume(newVolume)

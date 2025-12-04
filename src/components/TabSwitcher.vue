@@ -75,10 +75,10 @@ const selectFirstFile = () => {
 onMounted(() => {
     emit('select', props.selectedFile);
     // scroll to the selected file
-    const fileElement = document.getElementById(props.selectedFile);
-    if (fileElement) {
-        fileElement.scrollIntoView({ behavior: 'smooth' });
-    }
+    // const fileElement = document.getElementById(props.selectedFile);
+    // if (fileElement) {
+    //     fileElement.scrollIntoView({ behavior: 'smooth' });
+    // }
 })
 
 defineExpose({
