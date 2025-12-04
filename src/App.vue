@@ -239,50 +239,50 @@ onMounted(async () => {
     }
 
     
-    if (sectionNameFromUrl && itemNameFromUrl) {
-        //scroll to the section
-        nextTick(() => {
-            if (store.bps) {
-                for (const editor of Object.values(editors.value)) {
-                    editor.setBps(store.bps)
-                }
-            }
-            const sectionElement = document.getElementById(sectionNameFromUrl)
-            if (sectionElement) {
-                sectionElement.scrollIntoView({ behavior: 'smooth' })
-            }
-            // focus on the editor
-            const editor = editors.value[sectionNameFromUrl]
-            if (editor) {
-                editor.focus()
-            }
-            allowNextFragmentUpdate = true
-            window.addEventListener("hashchange", () => {
-                if (ignoreNextHashChange) {
-                    ignoreNextHashChange = false
-                    return
-                }
-                allowNextFragmentUpdate = false
-                console.log('hashchange', window.location.hash)
-                const urlParams = new URLSearchParams(window.location.hash.slice(1))
-                const sectionNameFromUrl = urlParams.get('section')
-                const itemNameFromUrl = urlParams.get('item')
-                if (!sectionNameFromUrl || !itemNameFromUrl) return
-                // scroll to the section if not in view
-                const sectionElement = document.getElementById(sectionNameFromUrl)
-                if (sectionElement && !sectionElement.getBoundingClientRect().top) {
-                    sectionElement.scrollIntoView({ behavior: 'smooth' })
-                }
-                // select the item in the tab switcher
-                const tabSwitcher = tabSwitchers.value[sectionNameFromUrl]
-                if (tabSwitcher) {
-                    tabSwitcher.selectFile(itemNameFromUrl)
-                }
-            })
-        })
-    } else {
-        allowNextFragmentUpdate = true
-    }
+    // if (sectionNameFromUrl && itemNameFromUrl) {
+    //     //scroll to the section
+    //     nextTick(() => {
+    //         if (store.bps) {
+    //             for (const editor of Object.values(editors.value)) {
+    //                 editor.setBps(store.bps)
+    //             }
+    //         }
+    //         const sectionElement = document.getElementById(sectionNameFromUrl)
+    //         if (sectionElement) {
+    //             sectionElement.scrollIntoView({ behavior: 'smooth' })
+    //         }
+    //         // focus on the editor
+    //         const editor = editors.value[sectionNameFromUrl]
+    //         if (editor) {
+    //             editor.focus()
+    //         }
+    //         allowNextFragmentUpdate = true
+    //         window.addEventListener("hashchange", () => {
+    //             if (ignoreNextHashChange) {
+    //                 ignoreNextHashChange = false
+    //                 return
+    //             }
+    //             allowNextFragmentUpdate = false
+    //             console.log('hashchange', window.location.hash)
+    //             const urlParams = new URLSearchParams(window.location.hash.slice(1))
+    //             const sectionNameFromUrl = urlParams.get('section')
+    //             const itemNameFromUrl = urlParams.get('item')
+    //             if (!sectionNameFromUrl || !itemNameFromUrl) return
+    //             // scroll to the section if not in view
+    //             const sectionElement = document.getElementById(sectionNameFromUrl)
+    //             if (sectionElement && !sectionElement.getBoundingClientRect().top) {
+    //                 sectionElement.scrollIntoView({ behavior: 'smooth' })
+    //             }
+    //             // select the item in the tab switcher
+    //             const tabSwitcher = tabSwitchers.value[sectionNameFromUrl]
+    //             if (tabSwitcher) {
+    //                 tabSwitcher.selectFile(itemNameFromUrl)
+    //             }
+    //         })
+    //     })
+    // } else {
+    //     allowNextFragmentUpdate = true
+    // }
 
 });
 
