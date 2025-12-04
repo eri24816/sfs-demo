@@ -96,19 +96,7 @@ const sections = ref<(Section | GroupedSection)[]>([])
 
 // Add function to update URL fragment
 function updateUrlFragment(section: string, item: string, groupName?: string) {
-    console.log('updateUrlFragment', section, item, groupName)
-    if (!allowNextFragmentUpdate) {
-        allowNextFragmentUpdate = true
-        return
-    }
-    ignoreNextHashChange = true
-    const params = new URLSearchParams()
-    params.set('section', section)
-    params.set('item', item)
-    if (groupName) {
-        params.set('group', groupName)
-    }
-    window.location.hash = params.toString()
+    return;
 }
 
 function handleFileSelect(itemName: string, sectionName: string, groupName?: string) {
